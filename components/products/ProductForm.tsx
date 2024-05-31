@@ -1,11 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useRouter } from "next/navigation";
-
-import { Separator } from "../ui/separator";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,18 +10,24 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "../ui/textarea";
-import ImageUpload from "../custom ui/ImageUpload";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { z } from "zod";
 import Delete from "../custom ui/Delete";
-import MultiText from "../custom ui/MultiText";
-import MultiSelect from "../custom ui/MultiSelect";
+import ImageUpload from "../custom ui/ImageUpload";
 import Loader from "../custom ui/Loader";
+import MultiSelect from "../custom ui/MultiSelect";
+import MultiText from "../custom ui/MultiText";
+import { Separator } from "../ui/separator";
 
 const formSchema = z.object({
   title: z.string().min(2).max(20),
-  description: z.string().min(2).max(500).trim(),
+  description: z.string().min(2).max(1500).trim(),
   media: z.array(z.string()),
   category: z.string(),
   collections: z.array(z.string()),
@@ -39,7 +39,7 @@ const formSchema = z.object({
 });
 
 interface ProductFormProps {
-  initialData?: ProductType | null; //Must have "?" to make it optional
+  initialData?: ProductType | null; // Must have "?" to make it optional
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
@@ -89,16 +89,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
         },
   });
 
-  const handleKeyPress = (
-    e:
-      | React.KeyboardEvent<HTMLInputElement>
-      | React.KeyboardEvent<HTMLTextAreaElement>
-  ) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-    }
-  };
-
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
@@ -146,7 +136,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                   <Input
                     placeholder="Title"
                     {...field}
-                    onKeyDown={handleKeyPress}
                   />
                 </FormControl>
                 <FormMessage className="text-red-1" />
@@ -160,11 +149,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
               <FormItem>
                 <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea
-                    placeholder="Description"
-                    {...field}
-                    rows={5}
-                    onKeyDown={handleKeyPress}
+                  <ReactQuill
+                    theme="snow"
+                    value={field.value}
+                    onChange={field.onChange}
                   />
                 </FormControl>
                 <FormMessage className="text-red-1" />
@@ -205,7 +193,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       type="number"
                       placeholder="Price"
                       {...field}
-                      onKeyDown={handleKeyPress}
                     />
                   </FormControl>
                   <FormMessage className="text-red-1" />
@@ -223,7 +210,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                       type="number"
                       placeholder="Expense"
                       {...field}
-                      onKeyDown={handleKeyPress}
                     />
                   </FormControl>
                   <FormMessage className="text-red-1" />
@@ -240,7 +226,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ initialData }) => {
                     <Input
                       placeholder="Category"
                       {...field}
-                      onKeyDown={handleKeyPress}
                     />
                   </FormControl>
                   <FormMessage className="text-red-1" />
