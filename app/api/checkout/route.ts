@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         allowed_countries: ["US","PT", "AL", "AD", "AT", "BY", "BE", "BA", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IS", "IE", "IT", "LV", "LI", "LT", "LU", "MT", "MD", "MC", "ME", "NL", "MK", "NO", "PL", "RO", "RU", "SM", "RS", "SK", "SI", "ES", "SE", "CH", "TR", "UA", "GB", "VA"],
       },
       shipping_options: [
-        { shipping_rate: "shr_1PLmmZGeMsiqW4HpfiAkiAf8" },
+        { shipping_rate: "shr_1PNY2tGeMsiqW4HpaozHKjxp" },
       ],
       line_items: cartItems.map((cartItem: any) => ({
         price_data: {
